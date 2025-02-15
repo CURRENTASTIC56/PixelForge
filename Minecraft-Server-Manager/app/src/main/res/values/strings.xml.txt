@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">PixelForge Minecraft Server Manager</string>
+    <string-array name="server_types">
+        <item>PaperMC</item>
+        <item>Spigot</item>
+        <item>Vanilla</item>
+    </string-array>
+</resources>

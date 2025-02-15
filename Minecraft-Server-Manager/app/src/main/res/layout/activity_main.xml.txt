@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout 
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="20dp">
+
+    <!-- Display Server Status -->
+    <TextView
+        android:id="@+id/tvStatus"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Server Status: Not Running"
+        android:textSize="18sp"/>
+
+    <!-- Server Type Dropdown -->
+    <Spinner
+        android:id="@+id/spinnerServerType"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:entries="@array/server_types"/>
+
+    <!-- Custom RAM Input -->
+    <EditText
+        android:id="@+id/etRam"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Enter RAM (MB)"
+        android:inputType="number"/>
+
+    <!-- Control Buttons -->
+    <Button
+        android:id="@+id/btnStartServer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Start Server"/>
+    <Button
+        android:id="@+id/btnStopServer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Stop Server"/>
+    <Button
+        android:id="@+id/btnPortForward"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Enable Port Forwarding"/>
+    <Button
+        android:id="@+id/btnViewLogs"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="View Console Logs"/>
+    <Button
+        android:id="@+id/btnBackup"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Backup World Data"/>
+    <Button
+        android:id="@+id/btnManageFiles"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Manage Server Files"/>
+    <Button
+        android:id="@+id/btnManagePlayers"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Manage Players"/>
+    <Button
+        android:id="@+id/btnConfigureServer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Configure Server"/>
+    <Button
+        android:id="@+id/btnManagePlugins"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Manage Plugins"/>
+</LinearLayout>
