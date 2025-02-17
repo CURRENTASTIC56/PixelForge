@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.pixelforge.minecraftserver"
+    android:versionCode="1"
+    android:versionName="1.0" >
+
+    <uses-sdk
+        android:minSdkVersion="21"
+        android:targetSdkVersion="31" />
+
+    <!-- Permissions for internet, storage, wake lock, etc. -->
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+
+    <application
+        android:allowBackup="true"
+        android:appComponentFactory="androidx.core.app.CoreComponentFactory"
+        android:debuggable="true"
+        android:icon="@android:drawable/sym_def_app_icon"
+        android:label="PixelForge - Minecraft Server Manager"
+        android:roundIcon="@android:drawable/sym_def_app_icon"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.AppCompat.DayNight.NoActionBar" >
+
+        <!-- Global meta-data -->
+        <meta-data
+            android:name="com.pixelforge.copyright"
+            android:value="© 2025 Ishaan Dnyaneshwar Jadhav. All rights reserved." />
+        <meta-data
+            android:name="com.pixelforge.owner"
+            android:value="Owner: Ishaan Dnyaneshwar Jadhav" />
+        <meta-data
+            android:name="com.pixelforge.developer"
+            android:value="Developer: Ishaan Dnyaneshwar Jadhav" />
+
+        <!-- Activities -->
+        <activity android:name="com.pixelforge.minecraftserver.PlayerManagementActivity" />
+        <activity android:name="com.pixelforge.minecraftserver.PluginManagementActivity" />
+        <activity android:name="com.pixelforge.minecraftserver.ConfigurationActivity" />
+        <activity android:name="com.pixelforge.minecraftserver.FileViewerActivity" />
+        <activity android:name="com.pixelforge.minecraftserver.FileManagerActivity" />
+        <activity android:name="com.pixelforge.minecraftserver.LogActivity" />
+        <activity
+            android:name="com.pixelforge.minecraftserver.MainActivity"
+            android:exported="true" > <!-- FIXED: Explicitly declared exported status -->
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <!-- Service -->
+        <service android:name="com.pixelforge.minecraftserver.PlayerNotificationService" />
+    </application>
+
+</manifest>

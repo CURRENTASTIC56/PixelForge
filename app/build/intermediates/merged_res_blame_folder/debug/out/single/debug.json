@@ -1,0 +1,30 @@
+[
+    {
+        "merged": "com.pixelforge.minecraftserver.app-merged_res-19:/layout_activity_main.xml.flat",
+        "source": "com.pixelforge.minecraftserver.app-main-21:/layout/activity_main.xml"
+    },
+    {
+        "merged": "com.pixelforge.minecraftserver.app-merged_res-19:/layout_activity_file_manager.xml.flat",
+        "source": "com.pixelforge.minecraftserver.app-main-21:/layout/activity_file_manager.xml"
+    },
+    {
+        "merged": "com.pixelforge.minecraftserver.app-merged_res-19:/layout_activity_plugin_management.xml.flat",
+        "source": "com.pixelforge.minecraftserver.app-main-21:/layout/activity_plugin_management.xml"
+    },
+    {
+        "merged": "com.pixelforge.minecraftserver.app-merged_res-19:/layout_activity_logs.xml.flat",
+        "source": "com.pixelforge.minecraftserver.app-main-21:/layout/activity_logs.xml"
+    },
+    {
+        "merged": "com.pixelforge.minecraftserver.app-merged_res-19:/layout_activity_player_management.xml.flat",
+        "source": "com.pixelforge.minecraftserver.app-main-21:/layout/activity_player_management.xml"
+    },
+    {
+        "merged": "com.pixelforge.minecraftserver.app-merged_res-19:/layout_activity_file_viewer.xml.flat",
+        "source": "com.pixelforge.minecraftserver.app-main-21:/layout/activity_file_viewer.xml"
+    },
+    {
+        "merged": "com.pixelforge.minecraftserver.app-merged_res-19:/layout_activity_configuration.xml.flat",
+        "source": "com.pixelforge.minecraftserver.app-main-21:/layout/activity_configuration.xml"
+    }
+]

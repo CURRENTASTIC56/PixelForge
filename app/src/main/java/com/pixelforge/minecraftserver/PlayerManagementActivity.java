@@ -1,13 +1,8 @@
-/*
- * PixelForge Minecraft Server Manager - Player Management Activity
- * Owner: Ishaan Dnyaneshwar Jadhav
- * Developer: Ishaan Dnyaneshwar Jadhav
- * Copyright © 2025 Ishaan Dnyaneshwar Jadhav. All rights reserved.
- */
-
 package com.pixelforge.minecraftserver;
 
 import android.content.DialogInterface;
+import android.content.Intent; // <-- Added this
+import android.app.Service; // <-- Added this
 import android.os.Bundle;
 import android.widget.*;
 import androidx.appcompat.app.AlertDialog;
