@@ -11,6 +11,7 @@ package com.pixelforge.minecraftserver;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.widget.*;
@@ -35,69 +36,76 @@ public class MainActivity extends AppCompatActivity {
         spinnerServerType = findViewById(R.id.spinnerServerType);
 
         findViewById(R.id.btnStartServer).setOnClickListener(v -> {
-            try {
-                showLoading("Starting server...");
-                startServer();
-                // Start notification service
-                startService(new Intent(this, PlayerNotificationService.class));
-            } catch (Exception e) {
-                hideLoading();
-                showErrorDialog("Error starting server: " + e.getMessage());
-            }
+            showLoading("Starting server...");
+            new ServerTask().execute("start");
+            startService(new Intent(this, PlayerNotificationService.class));
         });
+
         findViewById(R.id.btnStopServer).setOnClickListener(v -> {
-            try {
-                showLoading("Stopping server...");
-                stopServer();
-            } catch (Exception e) {
-                hideLoading();
-                showErrorDialog("Error stopping server: " + e.getMessage());
-            }
+            showLoading("Stopping server...");
+            new ServerTask().execute("stop");
         });
+
         findViewById(R.id.btnPortForward).setOnClickListener(v -> {
-            try {
-                showLoading("Enabling port forwarding...");
-                enablePortForwarding();
-            } catch (Exception e) {
-                hideLoading();
-                showErrorDialog("Error enabling port forwarding: " + e.getMessage());
-            }
+            showLoading("Enabling port forwarding...");
+            new ServerTask().execute("port");
         });
+
         findViewById(R.id.btnViewLogs).setOnClickListener(v -> viewConsoleLogs());
+
         findViewById(R.id.btnBackup).setOnClickListener(v -> {
-            try {
-                showLoading("Creating backup...");
-                backupWorld();
-            } catch (Exception e) {
-                hideLoading();
-                showErrorDialog("Error backing up world: " + e.getMessage());
-            }
+            showLoading("Creating backup...");
+            new ServerTask().execute("backup");
         });
+
         findViewById(R.id.btnManageFiles).setOnClickListener(v -> {
-            Intent intent = new Intent(this, FileManagerActivity.class);
-            startActivity(intent);
+            startActivity(new Intent(this, FileManagerActivity.class));
         });
+
         findViewById(R.id.btnManagePlayers).setOnClickListener(v -> {
-            Intent intent = new Intent(this, PlayerManagementActivity.class);
-            startActivity(intent);
+            startActivity(new Intent(this, PlayerManagementActivity.class));
         });
+
         findViewById(R.id.btnConfigureServer).setOnClickListener(v -> {
-            Intent intent = new Intent(this, ConfigurationActivity.class);
-            startActivity(intent);
-        });
-        findViewById(R.id.btnManagePlugins).setOnClickListener(v -> {
-            Intent intent = new Intent(this, PluginManagementActivity.class);
-            startActivity(intent);
+            startActivity(new Intent(this, ConfigurationActivity.class));
         });
     }
 
-    private void startServer() {
-        String ram = etRam.getText().toString().trim();
-        if (ram.isEmpty()) {
-            ram = "1024"; // default to 1GB
+    private class ServerTask extends AsyncTask<String, Void, String> {
+        @Override
+        protected String doInBackground(String... params) {
+            String action = params[0];
+            try {
+                switch (action) {
+                    case "start":
+                        return startServer();
+                    case "stop":
+                        return stopServer();
+                    case "port":
+                        return enablePortForwarding();
+                    case "backup":
+                        return backupWorld();
+                    default:
+                        return "Unknown command";
+                }
+            } catch (Exception e) {
+                return "Error: " + e.getMessage();
+            }
         }
+
+        @Override
+        protected void onPostExecute(String result) {
+            hideLoading();
+            tvStatus.setText(result);
+        }
+    }
+
+    private String startServer() {
+        String ram = etRam.getText().toString().trim();
+        if (ram.isEmpty()) ram = "1024";
         String serverType = spinnerServerType.getSelectedItem().toString();
         String serverUrl;
+
         switch (serverType) {
             case "PaperMC":
                 serverUrl = "https://papermc.io/api/v2/projects/paper/versions/latest/builds/latest/downloads/paper-latest.jar";
@@ -109,52 +117,43 @@ public class MainActivity extends AppCompatActivity {
                 serverUrl = "https://launcher.mojang.com/v1/objects/latest/server.jar";
                 break;
             default:
-                serverUrl = "https://launcher.mojang.com/v1/objects/latest/server.jar";
-                break;
+                return "Invalid server type";
         }
+
         String command = "mkdir -p ~/mcserver && cd ~/mcserver && " +
-                         "wget -O server.jar " + serverUrl + " && " +
-                         "echo 'eula=true' > eula.txt && " +
-                         "java -Xmx" + ram + "M -jar server.jar nogui";
-        executeTermuxCommand(command);
-        tvStatus.setText("Server Starting...");
-        handler.postDelayed(this::hideLoading, 15000);
+                "wget -O server.jar " + serverUrl + " && " +
+                "echo 'eula=true' > eula.txt && " +
+                "java -Xmx" + ram + "M -jar server.jar nogui";
+        return executeTermuxCommand(command) ? "Server Starting..." : "Failed to start server";
     }
 
-    private void stopServer() {
-        executeTermuxCommand("pkill java");
-        tvStatus.setText("Server Stopped");
-        handler.postDelayed(this::hideLoading, 3000);
+    private String stopServer() {
+        return executeTermuxCommand("pkill java") ? "Server Stopped" : "Failed to stop server";
     }
 
-    private void enablePortForwarding() {
-        String command = "cd ~/mcserver && playit";
-        executeTermuxCommand(command);
-        tvStatus.setText("Port Forwarding Enabled");
-        handler.postDelayed(this::hideLoading, 10000);
+    private String enablePortForwarding() {
+        return executeTermuxCommand("cd ~/mcserver && playit") ? "Port Forwarding Enabled" : "Failed to enable port forwarding";
     }
 
-    private void viewConsoleLogs() {
-        startActivity(new Intent(this, LogActivity.class));
+    private String backupWorld() {
+        return executeTermuxCommand("cd ~/mcserver && tar -czf backup.tar.gz world/") ? "Backup Created" : "Failed to create backup";
     }
 
-    private void backupWorld() {
-        String command = "cd ~/mcserver && tar -czf backup.tar.gz world/";
-        executeTermuxCommand(command);
-        Toast.makeText(this, "Backup Created", Toast.LENGTH_SHORT).show();
-        handler.postDelayed(this::hideLoading, 5000);
-    }
-
-    private void executeTermuxCommand(String command) {
+    private boolean executeTermuxCommand(String command) {
         try {
             Intent intent = new Intent();
             intent.setClassName("com.termux", "com.termux.app.RunCommandService");
             intent.setAction("com.termux.RUN_COMMAND");
             intent.putExtra("com.termux.RUN_COMMAND_ARGUMENTS", new String[]{"sh", "-c", command});
             startService(intent);
+            return true;
         } catch (Exception e) {
-            showErrorDialog("[" + COMPANY_NAME + "] Failed to execute command: " + e.getMessage());
+            return false;
         }
+    }
+
+    private void viewConsoleLogs() {
+        startActivity(new Intent(this, LogActivity.class));
     }
 
     private void showLoading(String message) {
@@ -167,13 +166,5 @@ public class MainActivity extends AppCompatActivity {
     private void hideLoading() {
         if (progressDialog != null && progressDialog.isShowing())
             progressDialog.dismiss();
-    }
-
-    private void showErrorDialog(String message) {
-        new AlertDialog.Builder(this)
-            .setTitle("Error - " + COMPANY_NAME)
-            .setMessage(message)
-            .setPositiveButton("OK", null)
-            .show();
     }
 }
