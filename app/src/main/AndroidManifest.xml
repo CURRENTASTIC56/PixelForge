@@ -1,6 +1,7 @@
-<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.pixelforge.minecraftserver">
 
-    <!-- Permissions for internet, storage, wake lock, etc. -->
+    <!-- Permissions for internet, storage, and wake lock -->
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
@@ -9,12 +10,12 @@
     <application
         android:allowBackup="true"
         android:label="PixelForge - Minecraft Server Manager"
-        android:icon="@android:drawable/sym_def_app_icon"
-        android:roundIcon="@android:drawable/sym_def_app_icon"
+        android:icon="@mipmap/ic_launcher"
+        android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.DayNight.NoActionBar">
         
-        <!-- Global meta-data -->
+        <!-- Global meta-data for ownership and licensing -->
         <meta-data
             android:name="com.pixelforge.copyright"
             android:value="© 2025 Ishaan Dnyaneshwar Jadhav. All rights reserved." />
@@ -25,24 +26,21 @@
             android:name="com.pixelforge.developer"
             android:value="Developer: Ishaan Dnyaneshwar Jadhav" />
 
-        <!-- Activities -->
+        <!-- Activities -->  
         <activity android:name=".PlayerManagementActivity" />
         <activity android:name=".PluginManagementActivity" />
         <activity android:name=".ConfigurationActivity" />
         <activity android:name=".FileViewerActivity" />
         <activity android:name=".FileManagerActivity" />
         <activity android:name=".LogActivity" />
-        
-        <activity android:name=".MainActivity"
-            android:exported="true">  <!-- FIXED: Explicitly declared exported status -->
+        <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-
-        <!-- Service -->
+        
+        <!-- Service -->  
         <service android:name=".PlayerNotificationService" />
     </application>
-
 </manifest>
