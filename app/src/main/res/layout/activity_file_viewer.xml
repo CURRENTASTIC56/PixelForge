@@ -1,13 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView 
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:padding="10dp">
-    
+    xmlns:android=\"http://schemas.android.com/apk/res/android\"
+    android:layout_width=\"match_parent\"
+    android:layout_height=\"match_parent\"
+    android:padding=\"10dp\"
+    android:background=\"#121212\">
+
     <TextView
-        android:id="@+id/tvFileContent"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="File content goes here"/>
+        android:id=\"@+id/tvFileContent\"
+        android:layout_width=\"match_parent\"
+        android:layout_height=\"wrap_content\"
+        android:textColor=\"#FFFFFF\"
+        android:text=\"File content goes here\"/>
 </ScrollView>
